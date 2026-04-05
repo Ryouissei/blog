@@ -1,11 +1,7 @@
 name: "Trigger Cloudflare Build"
 
 on:
-  # 允许在 GitHub Actions 页面手动点击按钮触发
   workflow_dispatch:
-  # 定时任务：每 2 小时执行一次 (你可以根据需要修改 crontab)
-  schedule:
-    - cron: '0 */2 * * *'
 
 jobs:
   build:
