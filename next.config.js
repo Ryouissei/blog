@@ -1,5 +1,9 @@
 module.exports = {
   outputFileTracingRoot: __dirname,
+  experimental: {
+    workerThreads: false,
+    cpus: 1
+  },
   images: {
     remotePatterns: [
       {
