@@ -1,6 +1,7 @@
 import type { OpenNextConfig } from "@opennextjs/cloudflare";
 
 const config: OpenNextConfig = {
+  buildCommand: "yarn build:app",
   default: {
     override: {
       wrapper: "cloudflare-node",
