@@ -15,7 +15,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "opennextjs-cloudflare build",
+    "build": "opennextjs-cloudflare build && next-sitemap --config next-sitemap.config.js",
     "preview": "opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare deploy",
     "start": "next start",
