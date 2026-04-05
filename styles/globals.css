@@ -104,6 +104,14 @@
     display: none;
     opacity: 0;
     overflow: hidden;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+  }
+
+  .header-name > * {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .sticky-nav-full .nav {

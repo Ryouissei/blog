@@ -25,6 +25,7 @@
     "axios": "^1.7.9",
     "feed": "^4.2.2",
     "gitalk": "^1.7.2",
+    "mermaid": "^11.14.0",
     "next": "^15.1.4",
     "notion-client": "^7.10.0",
     "notion-utils": "^7.10.0",
@@ -32,6 +33,7 @@
     "react-cusdis": "^2.0.1",
     "react-dom": "^19.0.0",
     "react-notion-x": "^7.10.0",
+    "react-tweet-embed": "^2.0.0",
     "use-ackee": "^3.0.0"
   },
   "devDependencies": {

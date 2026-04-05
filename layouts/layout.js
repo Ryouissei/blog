@@ -25,6 +25,13 @@ const Modal = dynamic(
   () => import('react-notion-x/build/third-party/modal').then(m => m.Modal),
   { ssr: false }
 )
+const Tweet = dynamic(() => import('react-tweet-embed'), { ssr: false })
+const Mermaid = dynamic(() => import('@/components/notion-blocks/Mermaid'), {
+  ssr: false
+})
+const Toggle = dynamic(() => import('@/components/notion-blocks/Toggle'), {
+  ssr: false
+})
 
 const mapPageUrl = id => {
   return 'https://www.notion.so/' + id.replace(/-/g, '')
@@ -88,11 +95,18 @@ const Layout = ({
             <NotionRenderer
               recordMap={blockMap}
               components={{
-                Code,
+                Code: (props) => {
+                  if (props.block.properties?.language?.[0]?.[0] === 'Mermaid') {
+                    return <Mermaid {...props} />
+                  }
+                  return <Code {...props} />
+                },
                 Collection,
                 Equation,
                 Pdf,
-                Modal
+                Modal,
+                Tweet,
+                toggle: Toggle
               }}
               mapPageUrl={mapPageUrl}
             />
