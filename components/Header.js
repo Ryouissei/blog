@@ -8,9 +8,9 @@ const NavBar = () => {
   const links = [
     { id: 0, name: locale.NAV.INDEX, to: BLOG.path || '/', show: true },
     { id: 1, name: locale.NAV.ABOUT, to: '/about', show: BLOG.showAbout },
-    { id: 2, name: locale.NAV.RSS, to: '/subscribe', show: true, external: true },
+    { id: 2, name: locale.NAV.RSS, to: '/subscribe', show: true },
     { id: 3, name: locale.NAV.FRIENDS, to: '/friends', show: true },
-    { id: 4, name: locale.NAV.PORTFOLIO, to: 'https://ryouissei.com/', show: true, external: true },
+    { id: 4, name: locale.NAV.PORTFOLIO, to: 'https://ryouissei.com/', show: true },
     { id: 6, name: locale.NAV.SEARCH, to: '/search', show: true }
   ]
   return (
@@ -23,7 +23,7 @@ const NavBar = () => {
                 key={link.id}
                 className="block ml-4 text-black dark:text-gray-50 nav"
               >
-                <Link href={link.to} target={link.external ? '_blank' : null}>
+                <Link href={link.to}>
                   {link.name}
                 </Link>
               </li>
