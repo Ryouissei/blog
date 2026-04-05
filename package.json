@@ -15,10 +15,11 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "opennextjs-cloudflare",
+    "preview": "opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare deploy",
     "start": "next start",
-    "lint": "next lint",
-    "postbuild": "next-sitemap --config next-sitemap.config.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@babel/runtime": "^7.26.0",
@@ -37,12 +38,14 @@
     "use-ackee": "^3.0.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.18.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.18.0",
     "eslint-config-next": "^15.1.4",
     "next-sitemap": "^4.2.3",
     "postcss": "^8.4.49",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "wrangler": "^4.80.0"
   },
   "resolutions": {
     "axios": ">=0.21.1"
