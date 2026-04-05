@@ -1,15 +1,27 @@
 module.exports = {
-  webpack5: true,
+  outputFileTracingRoot: __dirname,
   images: {
-    domains: ['gravatar.com']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'gravatar.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.notion.so'
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 's3.us-west-2.amazonaws.com'
+      }
+    ]
   },
   eslint: {
-    dirs: [
-      'components',
-      'layouts',
-      'lib',
-      'pages'
-    ]
+    dirs: ['components', 'layouts', 'lib', 'pages']
   },
   async headers () {
     return [
@@ -23,16 +35,5 @@ module.exports = {
         ]
       }
     ]
-  },
-  webpack: (config, { dev, isServer }) => {
-    // Replace React with Preact only in client production build
-    if (!dev && !isServer) {
-      Object.assign(config.resolve.alias, {
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat'
-      })
-    }
-    return config
   }
 }
