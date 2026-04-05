@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.18.0",
+    "@tailwindcss/postcss": "^4.1.4",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.18.0",
     "eslint-config-next": "^15.1.4",
