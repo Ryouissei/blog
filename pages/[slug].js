@@ -40,7 +40,7 @@ export async function getStaticProps ({ params: { slug } }) {
 
   return {
     props: { post, blockMap, emailHash },
-    revalidate: 1
+    revalidate: 300
   }
 }
 
