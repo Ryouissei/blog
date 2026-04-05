@@ -1,7 +1,7 @@
 import { fetchCusdisLang } from '@/lib/cusdisLang'
 import BLOG from '@/blog.config'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import 'gitalk/dist/gitalk.css'
 
@@ -26,6 +26,7 @@ const CusdisComponent = dynamic(
 
 const Comments = ({ frontMatter }) => {
   const router = useRouter()
+  const wrapperRef = useRef(null)
   const [cusdisTheme, setCusdisTheme] = useState(
     BLOG.appearance === 'dark' ? 'dark' : 'light'
   )
@@ -52,8 +53,44 @@ const Comments = ({ frontMatter }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const applyIframeStyle = () => {
+      const iframe = wrapperRef.current?.querySelector('#cusdis_thread iframe')
+      if (!iframe) return
+      iframe.setAttribute('scrolling', 'no')
+      iframe.style.background = 'transparent'
+      iframe.style.overflow = 'hidden'
+      iframe.style.border = '0'
+    }
+
+    const onMessage = (e) => {
+      try {
+        const msg = JSON.parse(e.data)
+        if (msg?.from !== 'cusdis' || msg?.event !== 'resize') return
+        const iframe = wrapperRef.current?.querySelector('#cusdis_thread iframe')
+        if (!iframe) return
+        iframe.style.height = `${msg.data}px`
+        applyIframeStyle()
+      } catch (_) {}
+    }
+
+    applyIframeStyle()
+    const observer = new MutationObserver(applyIframeStyle)
+    if (wrapperRef.current) {
+      observer.observe(wrapperRef.current, { childList: true, subtree: true })
+    }
+    window.addEventListener('message', onMessage)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('message', onMessage)
+    }
+  }, [frontMatter.id, cusdisTheme, router.asPath])
+
   return (
-    <div className="cusdis-wrapper">
+    <div className="cusdis-wrapper" ref={wrapperRef}>
       {BLOG.comment && BLOG.comment.provider === 'gitalk' && (
         <GitalkComponent
           options={{
@@ -75,7 +112,7 @@ const Comments = ({ frontMatter }) => {
         <CusdisComponent
           key={`${frontMatter.id}-${cusdisTheme}-${router.asPath}`}
           lang={fetchCusdisLang()}
-          style={{ minHeight: '560px' }}
+          style={{ minHeight: '220px', background: 'transparent' }}
           attrs={{
             host: BLOG.comment.cusdisConfig.host,
             appId: BLOG.comment.cusdisConfig.appId,
