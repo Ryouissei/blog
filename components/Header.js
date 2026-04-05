@@ -35,7 +35,7 @@ const NavBar = () => {
 }
 
 
-const Header = ({ navBarTitle, fullWidth }) => {
+const Header = ({ fullWidth }) => {
   const useSticky = !BLOG.autoCollapsedNavBar
   const navRef = useRef(null)
   const sentinalRef = useRef([])
@@ -96,13 +96,8 @@ const Header = ({ navBarTitle, fullWidth }) => {
               </svg>
             </div>
           </Link>
-          <p className="header-name ml-2 font-medium text-day dark:text-night grid">
-            {navBarTitle && (
-              <span className="post-title transition-all duration-500">
-                {navBarTitle}
-              </span>
-            )}
-            <span className={`site-title transition-all duration-500 ${navBarTitle ? 'opacity-0 invisible' : 'opacity-100 visible'}`}>
+          <p className="header-name ml-2 font-medium text-black dark:text-gray-100 grid">
+            <span className="site-title transition-all duration-500 opacity-100 visible">
               {BLOG.title}
               <span className="font-normal">, {BLOG.description}</span>
             </span>
