@@ -1,4 +1,5 @@
 /* NOTION CSS OVERRIDE */
+@reference "./globals.css";
 
 .notion {
   @apply text-gray-600 dark:text-gray-300;
@@ -71,13 +72,15 @@ pre[class*='language-'] {
   @apply max-w-full;
 }
 .notion-collection > .notion-collection-header {
-  @apply px-0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 .notion-collection > .notion-table {
-  @apply max-w-full !important;
+  max-width: 100% !important;
 }
 .notion-collection > .notion-table > .notion-table-view {
-  @apply px-0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 .notion-collection-view-type {
   @apply hidden;
