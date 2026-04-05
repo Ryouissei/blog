@@ -11,7 +11,6 @@ const NavBar = () => {
     { id: 2, name: locale.NAV.RSS, to: '/subscribe', show: true, external: true },
     { id: 3, name: locale.NAV.FRIENDS, to: '/friends', show: true },
     { id: 4, name: locale.NAV.PORTFOLIO, to: 'https://ryouissei.com/', show: true, external: true },
-    { id: 5, name: locale.NAV.ART, to: '/Art_appreciation', show: true, external: true },
     { id: 6, name: locale.NAV.SEARCH, to: '/search', show: true }
   ]
   return (
