@@ -1,6 +1,7 @@
 {
   "name": "nobelium",
   "version": "1.3.0",
+  "packageManager": "yarn@1.22.22",
   "homepage": "https://nobelium.js.org",
   "license": "MIT",
   "repository": {
