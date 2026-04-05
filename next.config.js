@@ -1,5 +1,8 @@
 module.exports = {
   outputFileTracingRoot: __dirname,
+  outputFileTracingIncludes: {
+    '/*': ['./node_modules/ofetch/dist/**/*']
+  },
   experimental: {
     workerThreads: false,
     cpus: 1
