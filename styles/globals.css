@@ -168,8 +168,6 @@
 .cusdis-wrapper {
   margin-top: 1rem;
   background: transparent;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
 }
 
 .cusdis-wrapper #cusdis_thread {
@@ -179,27 +177,8 @@
 
 .cusdis-wrapper #cusdis_thread iframe {
   width: 100%;
-  min-height: 220px;
+  min-height: 560px;
   border: 0;
   display: block;
   background: transparent !important;
-}
-
-.cusdis-wrapper::-webkit-scrollbar,
-.cusdis-wrapper #cusdis_thread::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.cusdis-wrapper::-webkit-scrollbar-track,
-.cusdis-wrapper #cusdis_thread::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.cusdis-wrapper::-webkit-scrollbar-thumb,
-.cusdis-wrapper #cusdis_thread::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.45);
-  border-radius: 999px;
-  border: 2px solid transparent;
-  background-clip: content-box;
 }
