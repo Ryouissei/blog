@@ -1,6 +1,7 @@
 import { fetchCusdisLang } from '@/lib/cusdisLang'
 import BLOG from '@/blog.config'
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import 'gitalk/dist/gitalk.css'
 
@@ -25,8 +26,34 @@ const CusdisComponent = dynamic(
 
 const Comments = ({ frontMatter }) => {
   const router = useRouter()
+  const [cusdisTheme, setCusdisTheme] = useState(
+    BLOG.appearance === 'dark' ? 'dark' : 'light'
+  )
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const getTheme = () => {
+      if (document.documentElement.classList.contains('dark')) return 'dark'
+      if (BLOG.appearance === 'dark') return 'dark'
+      if (BLOG.appearance === 'light') return 'light'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+    }
+
+    const applyTheme = () => setCusdisTheme(getTheme())
+    applyTheme()
+
+    if (BLOG.appearance === 'auto') {
+      const media = window.matchMedia('(prefers-color-scheme: dark)')
+      media.addEventListener('change', applyTheme)
+      return () => media.removeEventListener('change', applyTheme)
+    }
+  }, [])
+
   return (
-    <div>
+    <div className="cusdis-wrapper">
       {BLOG.comment && BLOG.comment.provider === 'gitalk' && (
         <GitalkComponent
           options={{
@@ -46,14 +73,16 @@ const Comments = ({ frontMatter }) => {
       )}
       {BLOG.comment && BLOG.comment.provider === 'cusdis' && (
         <CusdisComponent
-        lang={fetchCusdisLang()}
+          key={`${frontMatter.id}-${cusdisTheme}-${router.asPath}`}
+          lang={fetchCusdisLang()}
+          style={{ minHeight: '560px' }}
           attrs={{
             host: BLOG.comment.cusdisConfig.host,
             appId: BLOG.comment.cusdisConfig.appId,
             pageId: frontMatter.id,
             pageTitle: frontMatter.title,
             pageUrl: BLOG.link + router.asPath,
-            theme: BLOG.appearance
+            theme: cusdisTheme
           }}
         />
       )}
