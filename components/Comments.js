@@ -1,7 +1,7 @@
 import { fetchCusdisLang } from '@/lib/cusdisLang'
 import BLOG from '@/blog.config'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import 'gitalk/dist/gitalk.css'
 
@@ -17,12 +17,101 @@ const UtterancesComponent = dynamic(
   },
   { ssr: false }
 )
-const CusdisComponent = dynamic(
-  () => {
-    return import('react-cusdis').then(m => m.ReactCusdis)
-  },
-  { ssr: false }
-)
+const loadCusdisScript = (src, id) =>
+  new Promise((resolve, reject) => {
+    if (!src) {
+      resolve()
+      return
+    }
+
+    const existing = document.getElementById(id)
+    if (existing) {
+      if (existing.dataset.status === 'ready') {
+        resolve()
+        return
+      }
+
+      existing.addEventListener('load', resolve, { once: true })
+      existing.addEventListener('error', reject, { once: true })
+      return
+    }
+
+    const script = document.createElement('script')
+    script.id = id
+    script.src = src
+    script.async = true
+    script.dataset.status = 'loading'
+    script.addEventListener(
+      'load',
+      () => {
+        script.dataset.status = 'ready'
+        resolve()
+      },
+      { once: true }
+    )
+    script.addEventListener(
+      'error',
+      () => {
+        script.dataset.status = 'error'
+        reject(new Error(`Failed to load ${src}`))
+      },
+      { once: true }
+    )
+    document.body.appendChild(script)
+  })
+
+const CusdisComponent = ({ attrs, lang, style }) => {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    let cancelled = false
+    const host = attrs.host || 'https://cusdis.com'
+    const scriptSrc =
+      BLOG.comment.cusdisConfig.scriptSrc || `${host}/js/cusdis.es.js`
+    const langSrc = lang ? `${host}/js/widget/lang/${lang}.js` : ''
+
+    async function renderCusdis () {
+      await loadCusdisScript(scriptSrc, 'cusdis-script')
+      await loadCusdisScript(langSrc, 'cusdis-lang-script')
+
+      if (!cancelled && window.renderCusdis && ref.current) {
+        window.renderCusdis(ref.current)
+      }
+    }
+
+    renderCusdis().catch(error => {
+      console.error(error)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [
+    attrs.appId,
+    attrs.host,
+    attrs.pageId,
+    attrs.pageTitle,
+    attrs.pageUrl,
+    attrs.theme,
+    lang
+  ])
+
+  return (
+    <div
+      id="cusdis_thread"
+      data-host={attrs.host}
+      data-page-id={attrs.pageId}
+      data-app-id={attrs.appId}
+      data-page-title={attrs.pageTitle}
+      data-page-url={attrs.pageUrl}
+      data-theme={attrs.theme}
+      style={style}
+      ref={ref}
+    />
+  )
+}
 
 const Comments = ({ frontMatter }) => {
   const router = useRouter()
